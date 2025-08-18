@@ -120,6 +120,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    BASE_DIR / 'media',
+]
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # Для collectstatic при деплої
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -128,3 +132,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_URL = '/MEDIA/'
 MEDIA_ROOT = BASE_DIR/'media'
+
+LOGIN_REDIRECT_URL = 'core:user_profile'
+LOGOUT_REDIRECT_URL = 'core:group_profile'
