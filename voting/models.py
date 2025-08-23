@@ -16,7 +16,7 @@ class Vote(models.Model):
 class VoteOption(models.Model):
     vote = models.ForeignKey(Vote, on_delete=models.CASCADE, related_name="options")
     text = models.CharField(max_length=255)
-    #vote_count = 
+    vote_count = models.IntegerField(null=True)
 
     def __str__(self):
         return f"{self.text} ({self.vote.title})"
@@ -27,4 +27,6 @@ class UserVote(models.Model):
     option = models.ForeignKey(VoteOption, on_delete=models.CASCADE, related_name="user_votes")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="votes")
     voted_at = models.DateTimeField(auto_now=True)
+
+
 

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>{{ vote.title }}</h1>
+<p>{{ vote.description }}</p>
+<p>Created at:  {{ vote.created_at }}</p>
+<p>created_by:  {{ vote.created_by }}</p>
+{% if user.is_authenticated %}
+<h2>Проголосувати</h2>
+<form method="post" action="{% url 'voting:edit-vote' vote.pk %}">
+    {% csrf_token %}
+    {% for option in vote.options.all %}
+    <p><input type="radio" name="option" value="{{ option.id }}">{{ option.text }}</input></p>
+    {% endfor %}
+    <button type="submit">vote</button>
+</form>
+{% else %}
+<p>plese <a href="{% url 'login' %}">login</a> to vote</p>
+{% endif %}
+{% endblock %}
