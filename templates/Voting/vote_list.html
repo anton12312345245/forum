@@ -6,4 +6,5 @@
         <li><a href="{% url 'voting:vote-detail' vote.pk %}">{{ vote.title }}</a></li>
       {% endfor %}
     </ul>
+    <a href="{% url 'voting:vote-create' %}">створити Голосування</a>
 {% endblock %}
