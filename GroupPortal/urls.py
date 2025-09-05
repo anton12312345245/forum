@@ -22,7 +22,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls', namespace='core')),
-    path('vote/', include('voting.urls', namespace='vote')),
+    path('vote/', include('voting.urls', namespace='voting')),
     path('accounts/', include('django.contrib.auth.urls')),  # Для login/logout
  ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

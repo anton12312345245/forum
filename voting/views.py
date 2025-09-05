@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect,get_object_or_404
 from voting.models import Vote, VoteOption, UserVote
 from django.views.generic import DetailView,CreateView,View
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
+from django.urls import reverse_lazy
 from voting.forms import VoteForm
 
 def vote_list(request):
@@ -19,7 +20,7 @@ class VoteDetailView(DetailView):
 class VoteCreateView(LoginRequiredMixin,UserPassesTestMixin,CreateView):
     model = Vote
     template_name = 'Voting/vote_create.html'
-    success_url = redirect ('voting:vote-list')
+    success_url = reverse_lazy('voting:vote-list')   # success_url має бути рядком або результатом виклику reverse_lazy
     form_class = VoteForm
     
     def test_func(self):
