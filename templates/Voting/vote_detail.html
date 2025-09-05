@@ -9,10 +9,16 @@
 <form method="post" action="{% url 'voting:edit-vote' vote.pk %}">
     {% csrf_token %}
     {% for option in vote.options.all %}
-    <p><input type="radio" name="option" value="{{ option.id }}">{{ option.text }}</input></p>
+    <p><input type="radio" name="option" value="{{ option.id }}" required>{{ option.text }}</input></p>
     {% endfor %}
     <button type="submit">vote</button>
 </form>
+<h3> результати </h3>
+<ul>
+    {% for option in vote.options.all %}
+    <li> {{ option.text }}: {{ option.vote_count }} голуciв </li>
+    {% endfor %}
+</ul>
 {% else %}
 <p>plese <a href="{% url 'login' %}">login</a> to vote</p>
 {% endif %}
