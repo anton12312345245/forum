@@ -3,8 +3,12 @@
 <h1>Створити голосованя</h1>
 <form method="post">
     {% csrf_token %}
-    {{ form.title }}
-    {{ form.descritpion }}
+    <p>title: {{ form.title }}</p>
+    <p>description: {{ form.description }}</p>
+    <p>choices:</p>
+    {% for choices in form_set %}
+    <p>{{ choices.text }}</p>
+    {% endfor %}
     <button type="submit">создати</button>
 </form>
 {% endblock %}

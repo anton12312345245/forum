@@ -2,7 +2,8 @@ from django.shortcuts import render,redirect,get_object_or_404
 from voting.models import Vote, VoteOption, UserVote
 from django.views.generic import DetailView,CreateView,View
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
-from voting.forms import VoteForm
+from voting.forms import VoteForm,VoteOptionSet
+from django.urls import reverse_lazy
 
 def vote_list(request):
     votes = Vote.objects.all().order_by("-created_at")
@@ -19,9 +20,29 @@ class VoteDetailView(DetailView):
 class VoteCreateView(LoginRequiredMixin,UserPassesTestMixin,CreateView):
     model = Vote
     template_name = 'Voting/vote_create.html'
-    success_url = redirect ('voting:vote-list')
+    success_url = reverse_lazy('voting:vote-list')
     form_class = VoteForm
     
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.POST:
+            context['form_set'] = VoteOptionSet(self.request.POST,instance=self.object)
+        else:
+             context['form_set'] = VoteOptionSet(instance=self.object)
+        return context     
+         
+    def form_valid(self,form):
+        context = self.get_context_data()
+        form_set = context['form_set']
+        if form_set.is_valid():
+            form.instance.created_by = self.request.user
+            self.object = form.save()
+            form_set.instance = self.object
+            form_set.save()
+            return super().form_valid(form)
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
+
     def test_func(self):
         return self.request.user.profile.role == 'admin'
 
