@@ -2,8 +2,8 @@ from django.shortcuts import render,redirect,get_object_or_404
 from voting.models import Vote, VoteOption, UserVote
 from django.views.generic import DetailView,CreateView,View
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
-from voting.forms import VoteForm,VoteOptionSet
 from django.urls import reverse_lazy
+from voting.forms import VoteForm,VoteOptionSet
 
 def vote_list(request):
     votes = Vote.objects.all().order_by("-created_at")
@@ -20,7 +20,7 @@ class VoteDetailView(DetailView):
 class VoteCreateView(LoginRequiredMixin,UserPassesTestMixin,CreateView):
     model = Vote
     template_name = 'Voting/vote_create.html'
-    success_url = reverse_lazy('voting:vote-list')
+    success_url = redirect ('voting:vote-list')
     form_class = VoteForm
     
     def get_context_data(self,**kwargs):
