@@ -16,7 +16,7 @@ class Vote(models.Model):
 class VoteOption(models.Model):
     vote = models.ForeignKey(Vote, on_delete=models.CASCADE, related_name="options")
     text = models.CharField(max_length=255)
-    vote_count = models.IntegerField(null=True)
+    vote_count = models.IntegerField(default=0)
 
     def __str__(self):
         return f"{self.text} ({self.vote.title})"
