@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>{{ poll.title }}</h1>
+<p>{{ poll.description }}</p>
+<p>Created at:  {{ poll.created_at }}</p>
+<p>created_by:  {{ poll.created_by }}</p>
+{% if user.is_authenticated %}
+<h2>Проголосувати</h2>
+<form method="post" action="{% url 'poll:edit-poll' poll.pk %}">
+    {% csrf_token %}
+    {% for option in poll.options.all %}
+    <p><input type="radio" name="option" value="{{ option.id }}" required>{{ option.text }}</input></p>
+    {% endfor %}
+    <button type="submit">vote</button>
+</form>
+<h3> результати </h3>
+<ul>
+    {% for option in poll.options.all %}
+    <li> {{ option.text }}: {{ option.poll_count }} голociв </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>plese <a href="{% url 'login' %}">login</a> to vote</p>
+{% endif %}
+{% endblock %}

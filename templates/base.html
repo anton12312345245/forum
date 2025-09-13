@@ -28,16 +28,16 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Опитування</a>
+                        <a class="nav-link" href="{% url 'poll:poll-list' %}">Опитування</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'voting:vote-list' %}">Голосування</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Форум</a>
+                        <a class="nav-link" href="{% url 'forum:topics-list' %}">Форум</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Сторінки</a>
+                        <a class="nav-link" href="">Оголошеня</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">

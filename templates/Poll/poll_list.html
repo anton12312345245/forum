@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Список Опитувань</h1>
+    <h2>Голосувати можно тiльки один раз</h2>
+    <ul>
+      {% for poll in polls %}
+        <li><a href="{% url 'poll:poll-detail' poll.pk %}">{{ poll.title }}</a></li>
+      {% endfor %}
+    </ul>
+    <a href="{% url 'poll:poll-create' %}">створити Опитування</a>
+
+{% endblock %}
