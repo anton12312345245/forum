@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Детали {{ announcment.title }}</h1>
+    <p>{{ announcment.text }}</p>
+    <p>admin:{{ announcment.created_by }}</p>
+    <p>створено:{{ announcment.created_at }}</p>
+{% endblock %}

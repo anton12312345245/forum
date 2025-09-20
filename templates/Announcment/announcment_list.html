@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Список Оголошень</h1>
+    <ul>
+      {% for announcment in announcment %}
+        <li><a href="{% url 'announcment:announcment-detail' announcment.pk %}">{{ announcment.title }}</a></li>
+      {% endfor %}
+    </ul>
+
+
+{% endblock %}

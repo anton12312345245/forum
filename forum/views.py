@@ -16,6 +16,20 @@ class TopicDetailView(DetailView):
     template_name = 'Forum/topics_detail.html'
     context_object_name = 'topic'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['posts'] =  self.object.Post.all()
+        context['form'] = PostForm()
+        return context
+    
+    def post(self,request,*args,**kwargs):
+        Comment_Form = PostForm(request.POST)
+        if Comment_Form.is_valid():
+            comment = Comment_Form.save(commit=False)
+            comment.created_by =  request.user
+            comment.topic = self.get_object()
+            comment.save()
+            return redirect('forum:topics-detail',pk=comment.topic.pk)
 
 
 class TopicCreateView(LoginRequiredMixin,CreateView):
@@ -28,8 +42,3 @@ class TopicCreateView(LoginRequiredMixin,CreateView):
         form.instance.created_by = self.request.user
         return super().form_valid(form)
 
-class PostCreateView(LoginRequiredMixin,CreateView):
-    model = Post
-    template_name = 'Forum/posts_create.html' 
-    form_class = PostForm
-    

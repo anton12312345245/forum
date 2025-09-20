@@ -6,12 +6,15 @@
 <p>created_by:  {{ topic.created_by }}</p>
 {% if user.is_authenticated %}
 <h2>Повiдомленя</h2>
-<form method="post" action="{% url 'forum:edit-topic' topic.pk %}">
+{% for post in posts %}
+<p> {{ post.content }}</p>
+<p>автор: {{ post.created_by }}</p>
+<p>створено: {{ post.created_at }}</p>
+{% endfor %}
+<form method="post" action="{% url 'forum:topics-detail' topic.pk %}">
     {% csrf_token %}
-    {% for option in poll.options.all %}
-    <p><input type="radio" name="option" value="{{ option.id }}" required>{{ option.text }}</input></p>
-    {% endfor %}
-    <button type="submit">vote</button>
+    {{ form.content}}
+    <button type="submit">отправить</button>
 </form>
 {% else %}
 <p>plese <a href="{% url 'login' %}">login</a> to vote</p>

@@ -25,6 +25,7 @@ urlpatterns = [
     path('vote/', include('voting.urls', namespace='voting')),
     path('accounts/', include('django.contrib.auth.urls')),  # Для login/logout
     path('Poll/',include('poll.urls', namespace='poll')),
-    path('Forum/',include('forum.urls', namespace='forum'))
+    path('Forum/',include('forum.urls', namespace='forum')),
+    path('Announcment/',include('announcment.urls', namespace='announcment'))
  ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
