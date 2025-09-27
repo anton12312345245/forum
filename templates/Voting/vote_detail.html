@@ -11,7 +11,7 @@
     {% for option in vote.options.all %}
     <p><input type="radio" name="option" value="{{ option.id }}" required>{{ option.text }}</input></p>
     {% endfor %}
-    <button type="submit">vote</button>
+    <button class="btn btn-primary" type="submit">vote</button>
 </form>
 <h3> результати </h3>
 <ul>

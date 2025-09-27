@@ -10,6 +10,3 @@ class Announcment(models.Model):
     def __str__(self):
         return self.title
 
-
-
-#<a href="{% url 'announcment:announcment-create' %}">створити Оголошеня</a>

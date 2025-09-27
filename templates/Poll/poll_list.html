@@ -2,11 +2,13 @@
 {% block content %}
     <h1>Список Опитувань</h1>
     <h2>Голосувати можно тiльки один раз</h2>
-    <ul>
+    <div class="col-1 m-2">
+      <div class="list-group">
       {% for poll in polls %}
-        <li><a href="{% url 'poll:poll-detail' poll.pk %}">{{ poll.title }}</a></li>
+        <a class='list-group-item list-group-item-action text-primary-emphasis' href="{% url 'poll:poll-detail' poll.pk %}">{{ poll.title }}</a></li>
       {% endfor %}
-    </ul>
-    <a href="{% url 'poll:poll-create' %}">створити Опитування</a>
+    </div>
+  </div>
+    <a class="btn btn-primary" href="{% url 'poll:poll-create' %}">створити Опитування</a>
 
 {% endblock %}

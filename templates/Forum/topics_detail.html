@@ -14,9 +14,9 @@
 <form method="post" action="{% url 'forum:topics-detail' topic.pk %}">
     {% csrf_token %}
     {{ form.content}}
-    <button type="submit">отправить</button>
+    <button class="btn btn-primary" type="submit">отправить</button>
 </form>
 {% else %}
-<p>plese <a href="{% url 'login' %}">login</a> to vote</p>
+<p>please <a class="btn btn-primary" href="{% url 'login' %}">login</a> to vote</p>
 {% endif %}
 {% endblock %}
