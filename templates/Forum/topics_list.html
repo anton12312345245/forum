@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Список Тем</h1>
+    <div class="col-1 m-2">
+      <div class="list-group">
+      {% for topic in topics %}
+        <a class='list-group-item list-group-item-action text-primary-emphasis' href="{% url 'forum:topics-detail' topic.pk %}">{{ topic.title }}</a>
+      {% endfor %}
+    </div>
+  </div>
+    <a class="btn btn-primary" href="{% url 'forum:topics-create' %}">створити Тему</a>
+
+{% endblock %}

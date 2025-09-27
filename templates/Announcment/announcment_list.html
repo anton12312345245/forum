@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Список Оголошень</h1>
+    <div class="col-1 m-2">
+    <div class="list-group">
+      {% for announcment in announcment %}
+        <a class="list-group-item list-group-item-action text-primary-emphasis" href="{% url 'announcment:announcment-detail' announcment.pk %}">{{ announcment.title }}</a>
+      {% endfor %}
+    </div>
+  </div>
+    <a class="btn btn-primary" href="{% url 'announcment:announcment-create' %}">Створити оголошеня</a>
+
+{% endblock %}

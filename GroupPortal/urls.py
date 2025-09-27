@@ -15,8 +15,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-]
+    path('', include('core.urls', namespace='core')),
+    path('vote/', include('voting.urls', namespace='voting')),
+    path('accounts/', include('django.contrib.auth.urls')),  # Для login/logout
+    path('Poll/',include('poll.urls', namespace='poll')),
+    path('Forum/',include('forum.urls', namespace='forum')),
+    path('Announcment/',include('announcment.urls', namespace='announcment'))
+ ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

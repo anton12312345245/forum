@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Створити Тему</h1>
+<form method="post" action="{% url 'forum:topics-create' %}">
+    {% csrf_token %}
+    <p>title: {{ form.title }}</p>
+    <p>description: {{ form.description }}</p>
+    <button class="btn btn-primary" type="submit">создати Тему</button>
+</form>
+{% endblock %}

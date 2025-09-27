@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>{{ topic.title }}</h1>
+<p>{{ topic.description }}</p>
+<p>Created at:  {{ topic.created_at }}</p>
+<p>created_by:  {{ topic.created_by }}</p>
+{% if user.is_authenticated %}
+<h2>Повiдомленя</h2>
+{% for post in posts %}
+<p> {{ post.content }}</p>
+<p>автор: {{ post.created_by }}</p>
+<p>створено: {{ post.created_at }}</p>
+{% endfor %}
+<form method="post" action="{% url 'forum:topics-detail' topic.pk %}">
+    {% csrf_token %}
+    {{ form.content}}
+    <button class="btn btn-primary" type="submit">отправить</button>
+</form>
+{% else %}
+<p>please <a class="btn btn-primary" href="{% url 'login' %}">login</a> to vote</p>
+{% endif %}
+{% endblock %}

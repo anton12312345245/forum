@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Детали {{ announcment.title }}</h1>
+    <p>{{ announcment.text }}</p>
+    <p>admin:{{ announcment.created_by }}</p>
+    <p>створено:{{ announcment.created_at }}</p>
+
+    <a class="btn btn-danger"href="{% url 'announcment:announcment-delete' announcment.pk %}">Виделети оголошеня</a>
+{% endblock %}
+
+

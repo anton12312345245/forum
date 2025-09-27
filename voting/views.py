@@ -1,3 +1,67 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect,get_object_or_404
+from voting.models import Vote, VoteOption, UserVote
+from django.views.generic import DetailView,CreateView,View
+from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
+from django.urls import reverse_lazy
+from voting.forms import VoteForm,VoteOptionSet
 
-# Create your views here.
+def vote_list(request):
+    votes = Vote.objects.all().order_by("-created_at")
+    return render(request, "Voting/vote_list.html", {"votes": votes})
+
+
+class VoteDetailView(DetailView):
+    model = Vote
+    template_name = 'Voting/vote_detail.html'
+    context_object_name = 'vote'
+
+
+
+class VoteCreateView(LoginRequiredMixin,UserPassesTestMixin,CreateView):
+    model = Vote
+    template_name = 'Voting/vote_create.html'
+    success_url = reverse_lazy ('voting:vote-list')
+    form_class = VoteForm
+    
+    def get_context_data(self,**kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.POST:
+            context['form_set'] = VoteOptionSet(self.request.POST,instance=self.object)
+        else:
+             context['form_set'] = VoteOptionSet(instance=self.object)
+        return context     
+         
+    def form_valid(self,form):
+        context = self.get_context_data()
+        form_set = context['form_set']
+        if form_set.is_valid():
+            form.instance.created_by = self.request.user
+            self.object = form.save()
+            form_set.instance = self.object
+            form_set.save()
+            return super().form_valid(form)
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
+
+    def test_func(self):
+        return self.request.user.profile.role == 'admin'
+
+
+class EditYourVoteView(LoginRequiredMixin,View):
+    def post(self,request,pk):
+        vote = get_object_or_404(Vote,pk=pk)
+        option_id = request.POST.get('option')
+        option = get_object_or_404(VoteOption,pk=option_id,vote=vote)
+        uservote,exists = UserVote.objects.get_or_create(vote=vote,defaults={'option': option},user=request.user)
+        if exists == True:
+            option.vote_count += 1 
+            option.save()
+        else:
+            if uservote.option != option:
+                uservote.option.vote_count -= 1
+                uservote.option.save()
+                option.vote_count += 1            
+                option.save()
+                uservote.option = option
+                uservote.save() 
+        return redirect ('voting:vote-detail',pk=vote.pk)
